@@ -227,7 +227,46 @@ RSYSLOG_FACILITY=local7
 RSYSLOG_LEVEL=notice
 RSYSLOG_LOGGER="$(which logger) -s -i"
 
+declare -A DISABLE_SCREEN_RSYSLOG
+DISABLE_SCREEN_RSYSLOG[horizon]=True
+
+declare -A RSYSLOG_TAG
 RSYSLOG_TAG[horizon]='httpd'
+RSYSLOG_TAG[ceilometer-acompute]='ceilometer-acompute'
+RSYSLOG_TAG[ceilometer-acentral]='ceilometer-acentral'
+RSYSLOG_TAG[ceilometer-collector]='ceilometer-collector'
+RSYSLOG_TAG[ceilometer-api]='ceilometer-api'
+RSYSLOG_TAG[key]='keystone-all'
+RSYSLOG_TAG[g-reg]='glance-registry'
+RSYSLOG_TAG[g-api]='glance-api'
+RSYSLOG_TAG[q-svc]='quantum-server'
+RSYSLOG_TAG[q-agt]='quantum-agent'
+RSYSLOG_TAG[q-dhcp]='quantum-dhcp'
+RSYSLOG_TAG[q-l3]='quantum-agent-l3'
+RSYSLOG_TAG[q-meta]='quantum-meta'
+RSYSLOG_TAG[q-lbaas]='quantum-lbaas'
+RSYSLOG_TAG[s-proxy]='swift-proxy'
+RSYSLOG_TAG[s-object]='swift-object'
+RSYSLOG_TAG[s-container]='swift-container'
+RSYSLOG_TAG[s-account]='swift-account'
+RSYSLOG_TAG[h-eng]='heat-engine'
+RSYSLOG_TAG[h-api]='heat-api'
+RSYSLOG_TAG[h-api-cfn]='heat-api-cfn'
+RSYSLOG_TAG[h-api-cw]='heat-api-cloudwatch'
+RSYSLOG_TAG[n-api]='nova-api'
+RSYSLOG_TAG[n-cond]='nova-conductor'
+RSYSLOG_TAG[n-cpu]='nova-compute'
+RSYSLOG_TAG[n-crt]='nova-cert'
+RSYSLOG_TAG[n-net]='nova-network'
+RSYSLOG_TAG[n-sch]='nova-scheduler'
+RSYSLOG_TAG[n-novnc]='nova-novncproxy'
+RSYSLOG_TAG[n-xvnc]='nova-xvpvncproxy'
+RSYSLOG_TAG[n-spice]='nova-spicehtml5proxy'
+RSYSLOG_TAG[n-cauth]='nova-consoleauth'
+RSYSLOG_TAG[c-api]='cinder-api'
+RSYSLOG_TAG[c-vol]='cinder-volume'
+RSYSLOG_TAG[c-sch]='cinder-scheduler'
+RSYSLOG_TAG[c-bak]='cinder-backup'
 
 # Local variables:
 # mode: shell-script

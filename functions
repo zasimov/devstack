@@ -960,8 +960,10 @@ function screen_it {
     USE_SCREEN=$(trueorfalse True $USE_SCREEN)
 
     if is_service_enabled $1; then
+	SCREEN_CMD="$2 $(rsyslog_if_needed $1)"
+
         # Append the service to the screen rc file
-        screen_rc "$1" "$2"
+        screen_rc "$1" "$SCREEN_CMD"
 
         if [[ "$USE_SCREEN" = "True" ]]; then
             screen -S $SCREEN_NAME -X screen -t $1
@@ -978,10 +980,10 @@ function screen_it {
             sleep 1.5
 
             NL=`echo -ne '\015'`
-            screen -S $SCREEN_NAME -p $1 -X stuff "$2 || touch \"$SERVICE_DIR/$SCREEN_NAME/$1.failure\"$NL"
+            screen -S $SCREEN_NAME -p $1 -X stuff "$SCREEN_CMD || touch \"$SERVICE_DIR/$SCREEN_NAME/$1.failure\"$NL"
         else
             # Spawn directly without screen
-            run_process "$1" "$2" >$SERVICE_DIR/$SCREEN_NAME/$service.pid
+            run_process "$1" "$SCREEN_CMD" >$SERVICE_DIR/$SCREEN_NAME/$service.pid
         fi
     fi
 }
@@ -1409,7 +1411,19 @@ function use_rsyslog() {
 
 # Get logger string.
 function rsyslog() {
-    echo "${RSYSLOG_LOGGER} -p${RSYSLOG_FACILITY}.${RSYSLOG_LEVEL} -t${RSYSLOG_TAG[$1]}"
+    echo -n "${RSYSLOG_LOGGER} -p${RSYSLOG_FACILITY}.${RSYSLOG_LEVEL} -t${RSYSLOG_TAG[$1]}"
+}
+
+function rsyslog_if_needed() {
+    if use_rsyslog; then
+	if [ "${DISABLE_SCREEN_RSYSLOG[$1]}" != "True" -a -n "${RSYSLOG_TAG[$1]}" ]; then
+	    echo -n " 2>&1 | $(rsyslog $1)"
+	else
+	    echo -n ""
+	fi
+    else
+	echo -n ""
+    fi
 }
 
 # Restore xtrace
