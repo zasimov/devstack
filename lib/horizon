@@ -139,6 +139,7 @@ function init_horizon() {
         s,%USER%,$APACHE_USER,g;
         s,%GROUP%,$APACHE_GROUP,g;
         s,%HORIZON_DIR%,$HORIZON_DIR,g;
+        s,%APACHE_NAME%,$APACHE_NAME,g;
         s,%APACHE_ERROR_LOG%,$APACHE_ERROR_LOG,g;
         s,%APACHE_CUSTOM_LOG%,$APACHE_CUSTOM_LOG,g;
         s,%DEST%,$DEST,g;

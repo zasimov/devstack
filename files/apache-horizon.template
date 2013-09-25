@@ -22,9 +22,9 @@
         allow from all
     </Directory>
 
-    ErrorLog %APACHE_ERROR_LOG%
+    ErrorLog "%APACHE_ERROR_LOG%"
     LogLevel warn
-    CustomLog %APACHE_CUSTOM_LOG%
+    CustomLog "%APACHE_CUSTOM_LOG%"
 </VirtualHost>
 
 WSGISocketPrefix /var/run/%APACHE_NAME%
