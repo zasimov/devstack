@@ -222,6 +222,13 @@ PUBLIC_NETWORK_NAME=${PUBLIC_NETWORK_NAME:-"public"}
 # Compatibility until it's eradicated from CI
 USE_SCREEN=${SCREEN_DEV:-$USE_SCREEN}
 
+USE_RSYSLOG=False
+RSYSLOG_FACILITY=local7
+RSYSLOG_LEVEL=notice
+RSYSLOG_LOGGER="$(which logger) -s -i"
+
+RSYSLOG_TAG[horizon]='httpd'
+
 # Local variables:
 # mode: shell-script
 # End:

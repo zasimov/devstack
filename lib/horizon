@@ -125,12 +125,22 @@ function init_horizon() {
         exit_distro_not_supported "apache configuration"
     fi
 
+    APACHE_ERROR_LOG="/var/log/$APACHE_NAME/horizon_error.log"
+    APACHE_CUSTOM_LOG="/var/log/$APACHE_NAME/horizon_access.log"
+    if use_rsyslog; then
+	TEE=$(which tee)
+	APACHE_ERROR_LOG="| $TEE -a $APACHE_ERROR_LOG | $(rsyslog horizon)"
+	APACHE_CUSTOM_LOG="| $TEE -a $APACHE_CUSTOM_LOG | $(rsyslog horizon)"
+	unset $TEE
+    fi
+
     # Configure apache to run horizon
     sudo sh -c "sed -e \"
         s,%USER%,$APACHE_USER,g;
         s,%GROUP%,$APACHE_GROUP,g;
         s,%HORIZON_DIR%,$HORIZON_DIR,g;
-        s,%APACHE_NAME%,$APACHE_NAME,g;
+        s,%APACHE_ERROR_LOG%,$APACHE_ERROR_LOG,g;
+        s,%APACHE_CUSTOM_LOG%,$APACHE_CUSTOM_LOG,g;
         s,%DEST%,$DEST,g;
     \" $FILES/apache-horizon.template >/etc/$APACHE_NAME/$APACHE_CONF"
 

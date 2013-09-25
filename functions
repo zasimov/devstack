@@ -1402,6 +1402,16 @@ function get_pip_command() {
     fi
 }
 
+# Use rsyslog or not.
+function use_rsyslog() {
+    [ "$USE_RSYSLOG" = "True" ]
+}
+
+# Get logger string.
+function rsyslog() {
+    echo "${RSYSLOG_LOGGER} -p${RSYSLOG_FACILITY}.${RSYSLOG_LEVEL} -t${RSYSLOG_TAG[$1]}"
+}
+
 # Restore xtrace
 $XTRACE
 
